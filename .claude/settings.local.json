@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-expo-app@latest Zhanbu --template blank-typescript)",
+      "Bash(sudo rm -rf /Users/watermelon_sugar/.npm/_cacache)",
+      "Bash(ls -la /Users/watermelon_sugar/.npm/_cacache/content-v2/sha512/0a/ 2>&1 | head -20)",
+      "Bash(mkdir -p /tmp/npm-cache)",
+      "Bash(npx --cache /tmp/npm-cache create-expo-app@latest Zhanbu --template blank-typescript)",
+      "Bash(npm install *)",
+      "Bash(yarn --version)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); [print\\(f'  {k}: {v}'\\) for k,v in {**d.get\\('dependencies',{}\\),**d.get\\('devDependencies',{}\\)}.items\\(\\)]\")",
+      "Bash(npx tsc *)",
+      "Bash(grep -E \"^react-native-svg$|^expo-font$\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\('version'\\)\\)\")",
+      "Bash(node -e \"console.log\\(require\\('/Users/watermelon_sugar/Documents/Zhanbu/Zhanbu/node_modules/react-native-gesture-handler/package.json'\\).version\\)\")",
+      "Bash(node -e \"const m = require\\('/Users/watermelon_sugar/Documents/Zhanbu/Zhanbu/node_modules/react-native-svg/src/index.ts'\\); \")",
+      "Bash(npx jest *)",
+      "Bash(node -e \"console.log\\(require\\('/Users/watermelon_sugar/Documents/Zhanbu/Zhanbu/node_modules/react-native/package.json'\\).version\\)\")",
+      "Bash(node -e \"console.log\\(require\\('/Users/watermelon_sugar/Documents/Zhanbu/Zhanbu/node_modules/react-native/Libraries/Animated/Animated.js'\\) ? 'ok' : 'missing'\\)\")",
+      "Bash(./node_modules/.bin/tsc --noEmit)",
+      "Bash(grep -E \"^expo-haptics$|^expo-clipboard$\")",
+      "Bash(node -e \"console.log\\(require\\('/Users/watermelon_sugar/Documents/Zhanbu/Zhanbu/node_modules/react-native-gesture-handler/src/index.ts'\\) ? 'ok' : 'x'\\)\")",
+      "Bash(npx expo *)",
+      "Bash(node -e \"console.log\\(require\\('/Users/watermelon_sugar/Documents/Zhanbu/Zhanbu/node_modules/expo-haptics/package.json'\\).version\\)\")",
+      "Bash(node -e \"console.log\\(require\\('/Users/watermelon_sugar/Documents/Zhanbu/Zhanbu/node_modules/expo-clipboard/package.json'\\).version\\)\")",
+      "Bash(curl -s http://localhost:8081/status)",
+      "Bash(curl -s \"http://localhost:8081/\")",
+      "Bash(curl -s \"http://localhost:8081/index.ts.bundle?platform=ios&dev=false&minify=false\" -o /tmp/bundle_check.js)",
+      "Bash(echo \"exit: $?\")",
+      "Read(//tmp/**)",
+      "Bash(cat /tmp/bundle_check.js | head -30)",
+      "Bash(node -e \"console.log\\(require\\('/Users/watermelon_sugar/Documents/Zhanbu/Zhanbu/node_modules/react-native-reanimated/package.json'\\).version\\)\")",
+      "Bash(curl -s \"http://localhost:8081/index.ts.bundle?platform=ios&dev=false&minify=false\" -o /tmp/bundle_check2.js)"
+    ]
+  }
+}
