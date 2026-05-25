@@ -348,7 +348,7 @@ export default function ResultScreen({ route, navigation }: Props) {
               <Text style={styles.traceIntro}>
                 此卦由书写笔画、停顿分割、当前时辰共同生成。
               </Text>
-              <Text style={styles.traceMetaTitle}>深处数字</Text>
+              <Text style={styles.traceMetaTitle}>计算详情</Text>
               <Text style={styles.detailLine}>
                 笔画 a = {a}　→　映射 = {aMapped}　→　{upperTrigram.name} 卦（上卦）
               </Text>
