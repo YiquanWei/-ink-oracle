@@ -2,12 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   Animated,
   Modal,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
+  type ViewStyle,
 } from 'react-native';
 import { CommonActions } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
@@ -16,6 +18,21 @@ import HexagramDisplay from '../components/HexagramDisplay';
 import type { Hexagram, RootStackParamList } from '../types';
 
 type Props = StackScreenProps<RootStackParamList, 'Result'>;
+
+type WebScrollStyle = ViewStyle & {
+  overflowY?: 'auto';
+  WebkitOverflowScrolling?: 'touch';
+  touchAction?: 'pan-y';
+};
+
+const webScrollStyle: WebScrollStyle | undefined =
+  Platform.OS === 'web'
+    ? {
+        overflowY: 'auto',
+        WebkitOverflowScrolling: 'touch',
+        touchAction: 'pan-y',
+      }
+    : undefined;
 
 // ─── Ink-wash watermark ───────────────────────────────────────────────────────
 function InkWatermark({
@@ -182,11 +199,12 @@ export default function ResultScreen({ route, navigation }: Props) {
   }
 
   return (
-    <>
+    <View style={styles.screen}>
       <ScrollView
-        style={styles.scroll}
+        style={[styles.scroll, webScrollStyle]}
         contentContainerStyle={styles.content}
-        showsVerticalScrollIndicator={false}
+        nestedScrollEnabled
+        showsVerticalScrollIndicator
       >
         {/* ① 时辰 badge ──────────────────────────────────────────────────── */}
         <Animated.View style={[styles.shichenRow, { opacity: fades[0] }]}>
@@ -287,14 +305,24 @@ export default function ResultScreen({ route, navigation }: Props) {
         debugText={debug}
         onClose={() => setDebugVisible(false)}
       />
-    </>
+    </View>
   );
 }
 
 // ─── Main styles ──────────────────────────────────────────────────────────────
 const styles = StyleSheet.create({
-  scroll: { flex: 1, backgroundColor: '#0D0D0D' },
+  screen: {
+    flex: 1,
+    minHeight: 0,
+    backgroundColor: '#0D0D0D',
+  },
+  scroll: {
+    flex: 1,
+    minHeight: 0,
+    backgroundColor: '#0D0D0D',
+  },
   content: {
+    flexGrow: 1,
     paddingHorizontal: 28,
     paddingTop: 20,
     paddingBottom: 48,
