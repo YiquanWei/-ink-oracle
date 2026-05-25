@@ -332,19 +332,23 @@ export default function ResultScreen({ route, navigation }: Props) {
           <Text style={styles.hexPinyin}>{changedHexagram.pinyin}</Text>
         </Animated.View>
 
-        {/* ⑤ 计算详情 (collapsible) ─────────────────────────────────────────── */}
+        {/* ⑤ 起卦痕迹 (collapsible) ─────────────────────────────────────────── */}
         <Animated.View style={[styles.detailsBlock, { opacity: fades[3] }]}>
           <TouchableOpacity
             style={styles.detailsHeader}
             onPress={() => setDetailsOpen((v) => !v)}
             activeOpacity={0.7}
           >
-            <Text style={styles.detailsTitle}>计算详情</Text>
+            <Text style={styles.detailsTitle}>起卦痕迹</Text>
             <Text style={styles.detailsChevron}>{detailsOpen ? '▲' : '▼'}</Text>
           </TouchableOpacity>
 
           {detailsOpen && (
             <View style={styles.detailsBody}>
+              <Text style={styles.traceIntro}>
+                此卦由书写笔画、停顿分割、当前时辰共同生成。
+              </Text>
+              <Text style={styles.traceMetaTitle}>深处数字</Text>
               <Text style={styles.detailLine}>
                 笔画 a = {a}　→　映射 = {aMapped}　→　{upperTrigram.name} 卦（上卦）
               </Text>
@@ -438,6 +442,18 @@ const styles = StyleSheet.create({
   detailsTitle: { fontSize: 13, color: '#8A7560', letterSpacing: 3 },
   detailsChevron: { fontSize: 11, color: '#8A7560' },
   detailsBody: { marginTop: 14, gap: 10 },
+  traceIntro: {
+    fontSize: 13,
+    color: '#8A7560',
+    lineHeight: 22,
+    letterSpacing: 1,
+  },
+  traceMetaTitle: {
+    marginTop: 8,
+    fontSize: 10,
+    color: '#C8A96E66',
+    letterSpacing: 3,
+  },
   detailLine: { fontSize: 12, color: '#6A5E50', lineHeight: 20, letterSpacing: 0.5 },
   resetWrapper: { marginTop: 40, alignItems: 'center' },
   resetBtn: {
