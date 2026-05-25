@@ -23,7 +23,11 @@ export default function App() {
           <Stack.Screen
             name="Result"
             component={ResultScreen}
-            options={{ title: '卦象' }}
+            options={{
+              title: '卦象',
+              headerLeft: () => null,
+              gestureEnabled: false,
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>
