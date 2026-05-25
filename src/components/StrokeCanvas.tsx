@@ -91,7 +91,12 @@ export default function StrokeCanvas({ onComplete }: Props) {
       {/* ── Drawing area ───────────────────────────────── */}
       <View style={styles.drawArea}>
         {/* Rice-paper noise texture */}
-        <Svg style={StyleSheet.absoluteFill} pointerEvents="none">
+        <Svg
+          style={StyleSheet.absoluteFill}
+          width="100%"
+          height="100%"
+          pointerEvents="none"
+        >
           <Defs>
             <Filter id="paper" x="0%" y="0%" width="100%" height="100%">
               <FeTurbulence
@@ -121,7 +126,12 @@ export default function StrokeCanvas({ onComplete }: Props) {
         </GestureDetector>
 
         {/* Ink stroke rendering */}
-        <Svg style={StyleSheet.absoluteFill} pointerEvents="none">
+        <Svg
+          style={StyleSheet.absoluteFill}
+          width="100%"
+          height="100%"
+          pointerEvents="none"
+        >
           {completedStrokes.map((stroke, i) => (
             <Path
               key={i}
@@ -179,11 +189,14 @@ export default function StrokeCanvas({ onComplete }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    minHeight: 0,
     backgroundColor: '#0D0D0D',
   },
   drawArea: {
     flex: 1,
+    minHeight: 0,
     overflow: 'hidden',
+    position: 'relative',
   },
   counter: {
     position: 'absolute',
