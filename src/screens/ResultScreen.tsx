@@ -7,7 +7,6 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
   type ViewStyle,
 } from 'react-native';
@@ -21,6 +20,7 @@ type Props = StackScreenProps<RootStackParamList, 'Result'>;
 
 type WebScrollStyle = ViewStyle & {
   overflowY?: 'auto';
+  overflowX?: 'hidden';
   WebkitOverflowScrolling?: 'touch';
   touchAction?: 'pan-y';
 };
@@ -29,10 +29,27 @@ const webScrollStyle: WebScrollStyle | undefined =
   Platform.OS === 'web'
     ? {
         overflowY: 'auto',
+        overflowX: 'hidden',
         WebkitOverflowScrolling: 'touch',
         touchAction: 'pan-y',
       }
     : undefined;
+
+type WebElement = {
+  style: {
+    height: string;
+    minHeight: string;
+    overflow?: string;
+    overflowX?: string;
+    overflowY?: string;
+  };
+};
+
+type WebDocument = {
+  body?: WebElement;
+  documentElement?: WebElement;
+  getElementById?: (id: string) => WebElement | null;
+};
 
 // ─── Ink-wash watermark ───────────────────────────────────────────────────────
 function InkWatermark({
@@ -188,6 +205,60 @@ export default function ResultScreen({ route, navigation }: Props) {
     ).start();
   }, []);
 
+  useEffect(() => {
+    if (Platform.OS !== 'web') return;
+
+    const doc = (globalThis as { document?: WebDocument }).document;
+    const body = doc?.body;
+    const html = doc?.documentElement;
+    const root = doc?.getElementById?.('root') ?? null;
+
+    if (!body || !html) return;
+
+    const previous = {
+      bodyHeight: body.style.height,
+      bodyMinHeight: body.style.minHeight,
+      bodyOverflowX: body.style.overflowX,
+      bodyOverflowY: body.style.overflowY,
+      htmlHeight: html.style.height,
+      htmlMinHeight: html.style.minHeight,
+      htmlOverflowY: html.style.overflowY,
+      rootHeight: root?.style.height,
+      rootMinHeight: root?.style.minHeight,
+      rootOverflow: root?.style.overflow,
+    };
+
+    html.style.height = 'auto';
+    html.style.minHeight = '100%';
+    html.style.overflowY = 'auto';
+    body.style.height = 'auto';
+    body.style.minHeight = '100%';
+    body.style.overflowX = 'hidden';
+    body.style.overflowY = 'auto';
+
+    if (root) {
+      root.style.height = 'auto';
+      root.style.minHeight = '100vh';
+      root.style.overflow = 'visible';
+    }
+
+    return () => {
+      html.style.height = previous.htmlHeight;
+      html.style.minHeight = previous.htmlMinHeight;
+      html.style.overflowY = previous.htmlOverflowY;
+      body.style.height = previous.bodyHeight;
+      body.style.minHeight = previous.bodyMinHeight;
+      body.style.overflowX = previous.bodyOverflowX;
+      body.style.overflowY = previous.bodyOverflowY;
+
+      if (root) {
+        root.style.height = previous.rootHeight ?? '';
+        root.style.minHeight = previous.rootMinHeight ?? '';
+        root.style.overflow = previous.rootOverflow ?? '';
+      }
+    };
+  }, []);
+
   // ── UI state ────────────────────────────────────────────────────────────────
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [debugVisible, setDebugVisible] = useState(false);
@@ -215,20 +286,21 @@ export default function ResultScreen({ route, navigation }: Props) {
 
         {/* ② 原卦 — long press triggers debug overlay ─────────────────────── */}
         <Animated.View style={[styles.hexBlock, { opacity: fades[0] }]}>
-          <Text style={styles.sectionLabel}>原卦</Text>
-
-          <TouchableWithoutFeedback
+          <TouchableOpacity
             onLongPress={() => setDebugVisible(true)}
             delayLongPress={500}
+            activeOpacity={0.7}
           >
-            <View style={styles.hexCard}>
-              <InkWatermark hexagram={originalHexagram} opacity={wmOpacity} />
-              <HexagramDisplay
-                hexagram={originalHexagram}
-                highlightLine={changingLine.position}
-              />
-            </View>
-          </TouchableWithoutFeedback>
+            <Text style={styles.sectionLabel}>原卦</Text>
+          </TouchableOpacity>
+
+          <View style={styles.hexCard}>
+            <InkWatermark hexagram={originalHexagram} opacity={wmOpacity} />
+            <HexagramDisplay
+              hexagram={originalHexagram}
+              highlightLine={changingLine.position}
+            />
+          </View>
 
           <Text style={styles.hexName}>{originalHexagram.name}</Text>
           <Text style={styles.hexPinyin}>{originalHexagram.pinyin}</Text>
