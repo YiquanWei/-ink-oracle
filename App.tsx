@@ -18,7 +18,7 @@ export default function App() {
           <Stack.Screen
             name="Write"
             component={WriteScreen}
-            options={{ title: '占卜' }}
+            options={{ title: '请你写出当下想到的第一个汉字' }}
           />
           <Stack.Screen
             name="Result"
