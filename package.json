@@ -35,6 +35,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web"
   },
+  "license": "UNLICENSED",
   "private": true,
   "jest": {
     "preset": "jest-expo",
